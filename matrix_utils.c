@@ -47,7 +47,7 @@ new_identity_matrix(size_t size)
  *  e: returns a pointer to the matrix element at ('row','col')
  */
 float *
-e(matrix_t m, size_t row, size_t col)
+ele(matrix_t m, size_t row, size_t col)
 {
   assert(row < m.rows);
   assert(col < m.cols);
@@ -59,7 +59,7 @@ e(matrix_t m, size_t row, size_t col)
  *  e_val: returns the value of the matrix element at ('row','col')
  */
 float
-e_val(matrix_t m, size_t row, size_t col)
+val(matrix_t m, size_t row, size_t col)
 {
-  return *e(m, row, col);
+  return *ele(m, row, col);
 }

@@ -12,8 +12,8 @@ typedef struct {
 void free_matrix(matrix_t m);
 matrix_t new_matrix(size_t rows, size_t cols);
 matrix_t new_identity_matrix(size_t size);
-float *e(matrix_t m, size_t row, size_t col);
-float e_val(matrix_t m, size_t row, size_t col);
+float *ele(matrix_t m, size_t row, size_t col);
+float val(matrix_t m, size_t row, size_t col);
 void print_matrix(matrix_t m);
 void set_mult_matrix(matrix_t c, matrix_t a, matrix_t b);
 matrix_t mult_matrix(matrix_t a, matrix_t b);

@@ -20,5 +20,5 @@ main()
   printf("b\n");
   print_matrix(b);
   printf("c = a * b\n");
-  printf("%f\n", *e(b, 1, 1));
+  printf("%f\n", *ele(b, 1, 1));
 }
