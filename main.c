@@ -16,4 +16,7 @@ main()
   print_matrix(c);
   printf("b:\n");
   print_matrix(b);
+  mat_free(a);
+  mat_free(b);
+  mat_free(c);
 }
