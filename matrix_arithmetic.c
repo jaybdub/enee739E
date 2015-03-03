@@ -6,11 +6,11 @@
  *  c = a * b
  */
 void
-mul(matrix_t *c, matrix_t a, matrix_t b)
+mat_mult(matrix_t *c, matrix_t a, matrix_t b)
 {
   int i, j, k;
   assert(a.cols == b.rows);
-  assert(set_dim(c, a.rows, b.cols));
+  assert(mat_set_dim(c, a.rows, b.cols));
 
   for (i = 0; i < a.rows; i++) {
     for (j = 0; j < b.cols; j++) {
@@ -26,11 +26,11 @@ mul(matrix_t *c, matrix_t a, matrix_t b)
  *  set_add: adds two matrices, stores the result in c
  */
 void
-add(matrix_t *c, matrix_t a, matrix_t b)
+mat_add(matrix_t *c, matrix_t a, matrix_t b)
 {
   int i, j, idx;
   assert(a.cols == b.cols && a.rows == b.rows);
-  assert(set_dim(c, a.rows, b.cols));
+  assert(mat_set_dim(c, a.rows, b.cols));
 
   for (i = 0; i < c->rows; i++) {
     for (j = 0; j < c->cols; j++) {
@@ -45,11 +45,11 @@ add(matrix_t *c, matrix_t a, matrix_t b)
  *  in c
  */
 void
-sub(matrix_t *c, matrix_t a, matrix_t b)
+mat_sub(matrix_t *c, matrix_t a, matrix_t b)
 {
   int i, j, idx;
   assert(a.cols == b.cols && a.rows == b.rows);
-  assert(set_dim(c, a.rows, b.cols));
+  assert(mat_set_dim(c, a.rows, b.cols));
 
   for (i = 0; i < c->rows; i++) {
     for (j = 0; j < c->cols; j++) {
@@ -65,11 +65,11 @@ sub(matrix_t *c, matrix_t a, matrix_t b)
  *  stores the result in c
  */
 void
-emul(matrix_t *c, matrix_t a, matrix_t b)
+mat_emult(matrix_t *c, matrix_t a, matrix_t b)
 {
   int i, j, idx;
   assert(a.cols == b.cols && a.rows == b.rows);
-  assert(set_dim(c, a.rows, b.cols));
+  assert(mat_set_dim(c, a.rows, b.cols));
 
   for (i = 0; i < c->rows; i++) {
     for (j = 0; j < c->cols; j++) {
@@ -85,11 +85,11 @@ emul(matrix_t *c, matrix_t a, matrix_t b)
  *  b are denomenators.
  */
 void
-ediv(matrix_t *c, matrix_t a, matrix_t b)
+mat_ediv(matrix_t *c, matrix_t a, matrix_t b)
 {
   int i, j, idx;
   assert(a.cols == b.cols && a.rows == b.rows);
-  assert(set_dim(c, a.rows, b.cols));
+  assert(mat_set_dim(c, a.rows, b.cols));
 
   for (i = 0; i < c->rows; i++) {
     for (j = 0; j < c->cols; j++) {
@@ -103,11 +103,26 @@ ediv(matrix_t *c, matrix_t a, matrix_t b)
  *  scale: scales m by 'scalor'
  */
 void
-scale(matrix_t *m, float scalor)
+mat_scale(matrix_t *m, float scalor)
 {
   int i, lim;
 
   lim = m->rows * m->cols;
   for (i = 0; i < lim; i++)
     m->data[i] *= scalor;
+}
+
+/*
+ *  trace: calculates the matrix trace of the square matrix 'm', 
+ *  stores the result in 'trace'
+ */
+void
+mat_trace(matrix_t *trace, matrix_t m)
+{
+  int i;
+  assert(m.cols == m.rows);
+
+  if (mat_set_dim(trace, m.rows, 1))
+    for (i = 0; i < m.rows; i++)
+      trace->data[i] = mat_val(m, i, i);
 }

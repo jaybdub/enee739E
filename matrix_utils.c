@@ -7,7 +7,7 @@
  *  This does not free the rows or cols properties.
  */
 void
-free_matrix(matrix_t m)
+mat_free(matrix_t m)
 {
   free(m.data);
 };
@@ -18,7 +18,7 @@ free_matrix(matrix_t m)
  *  to the allocated space
  */
 matrix_t
-new_matrix(size_t rows, size_t cols)
+mat_new(size_t rows, size_t cols)
 {
   matrix_t m;
 
@@ -29,27 +29,12 @@ new_matrix(size_t rows, size_t cols)
 };
 
 /*
- *  new_identity_matrix: creates a new 'size'x'size' identity matrix
- */
-matrix_t
-new_identity_matrix(size_t size)
-{
-  int i;
-  matrix_t m;
-
-  m = new_matrix(size, size);
-  for (i = 0; i < size; i++)
-    m.data[i * size + i] = 1.0;
-  return m;
-};
-
-/*
  *  set_dim: set the dimension of the matrix 'm' to 'rows'x'cols'.  If
  *  the amount of memory used by the matrix is not changed, reallocation
  *  is not performed.  Returns 1 if matrix is successful, 0 otherwise
  */
 int
-set_dim(matrix_t *m, size_t rows, size_t cols)
+mat_set_dim(matrix_t *m, size_t rows, size_t cols)
 {
   if (m->rows == rows && m->cols == cols) {
     /* dimensions are consistent, do nothing */
@@ -76,11 +61,11 @@ set_dim(matrix_t *m, size_t rows, size_t cols)
  *  have same dimensions as 'from'
  */
 void
-copy(matrix_t *to, matrix_t from)
+mat_copy(matrix_t *to, matrix_t from)
 {
   int i, lim;
   
-  set_dim(to, from.rows, from.cols);
+  mat_set_dim(to, from.rows, from.cols);
 
   /* copy data */
   lim = from.rows * from.cols;
@@ -92,7 +77,7 @@ copy(matrix_t *to, matrix_t from)
  *  e: returns a pointer to the matrix element at ('row','col')
  */
 float *
-ele(matrix_t m, size_t row, size_t col)
+mat_ele(matrix_t m, size_t row, size_t col)
 {
   assert(row < m.rows);
   assert(col < m.cols);
@@ -104,37 +89,7 @@ ele(matrix_t m, size_t row, size_t col)
  *  e_val: returns the value of the matrix element at ('row','col')
  */
 float
-val(matrix_t m, size_t row, size_t col)
+mat_val(matrix_t m, size_t row, size_t col)
 {
-  return *ele(m, row, col);
-}
-
-/*
- *  ones: turns matrix 'm' into a 'rows'x'cols' matrix where each entry is 1
- */
-void
-ones(matrix_t *m, size_t rows, size_t cols)
-{
-  int i, lim;
-
-  if (set_dim(m, rows, cols)) {
-    lim = m->rows * m->cols;
-    for (i = 0; i < lim; i++)
-      m->data[i] = 1.0f;
-  }
-}
-
-/*
- *  zeros: turns matrix 'm' into a 'rows'x'cols' matrix where each entry is 0
- */
-void
-zeros(matrix_t *m, size_t rows, size_t cols)
-{
-  int i, lim;
-
-  if (set_dim(m, rows, cols)) {
-    lim = m->rows * m->cols;
-    for (i = 0; i < lim; i++)
-      m->data[i] = 0.0f;
-  }
+  return *mat_ele(m, row, col);
 }
