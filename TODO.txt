@@ -1,0 +1,1 @@
+- modify mat_set_dim to handle invalid data pointers
