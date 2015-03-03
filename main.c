@@ -3,20 +3,17 @@
 
 main()
 {
-  matrix_t a, b, c;
+  matrix_t a, b;
 
-  a = new_identity_matrix(2);
-  b = new_matrix(2, 1);
-  b.data[0] = 1.0;
-  b.data[1] = 2.0;
+  a = new_matrix(2, 1);
+  b = new_identity_matrix(10);
+  copy(&a, b);
+  scale(&a, 25);
+  zeros(&b, 25, 5);
+  scale(&b, 13.4);
 
-  c = mul(a, add(b, b));
-  //  c = add_matrix(c, a);
-  //  add_matrix(c, a, b);
-  printf("a\n");
-  print_matrix(a);
-  printf("b\n");
+  printf("b:\n");
   print_matrix(b);
-  printf("c = a * b\n");
-  print_matrix(c);
+  printf("a:\n");
+  print_matrix(a);
 }

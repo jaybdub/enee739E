@@ -44,6 +44,51 @@ new_identity_matrix(size_t size)
 };
 
 /*
+ *  set_dim: set the dimension of the matrix 'm' to 'rows'x'cols'.  If
+ *  the amount of memory used by the matrix is not changed, reallocation
+ *  is not performed.  Returns 1 if matrix is successful, 0 otherwise
+ */
+int
+set_dim(matrix_t *m, size_t rows, size_t cols)
+{
+  if (m->rows == rows && m->cols == cols) {
+    /* dimensions are consistent, do nothing */
+    return 1;
+  } else if (m->rows * m->cols == rows * cols) {
+    /* data storage size is consistent, adjust dimensions */
+    m->rows = rows;
+    m->cols = cols;
+    return 1;
+  } else {
+    /* data storage size is inconsistent, realloc space & adjust dimensions */
+    if ((m->data = (float *) realloc(m->data, sizeof(float) * rows * cols))
+	!= NULL) {
+      m->rows = rows;
+      m->cols = cols;
+      return 1;
+    }
+  }
+  return 0;
+}
+
+/*
+ *  copy: copies data from one matrix to another. 'to' will be forced to
+ *  have same dimensions as 'from'
+ */
+void
+copy(matrix_t *to, matrix_t from)
+{
+  int i, lim;
+  
+  set_dim(to, from.rows, from.cols);
+
+  /* copy data */
+  lim = from.rows * from.cols;
+  for (i = 0; i < lim; i++)
+    to->data[i] = from.data[i];
+}
+
+/*
  *  e: returns a pointer to the matrix element at ('row','col')
  */
 float *
@@ -62,4 +107,34 @@ float
 val(matrix_t m, size_t row, size_t col)
 {
   return *ele(m, row, col);
+}
+
+/*
+ *  ones: turns matrix 'm' into a 'rows'x'cols' matrix where each entry is 1
+ */
+void
+ones(matrix_t *m, size_t rows, size_t cols)
+{
+  int i, lim;
+
+  if (set_dim(m, rows, cols)) {
+    lim = m->rows * m->cols;
+    for (i = 0; i < lim; i++)
+      m->data[i] = 1.0f;
+  }
+}
+
+/*
+ *  zeros: turns matrix 'm' into a 'rows'x'cols' matrix where each entry is 0
+ */
+void
+zeros(matrix_t *m, size_t rows, size_t cols)
+{
+  int i, lim;
+
+  if (set_dim(m, rows, cols)) {
+    lim = m->rows * m->cols;
+    for (i = 0; i < lim; i++)
+      m->data[i] = 0.0f;
+  }
 }
